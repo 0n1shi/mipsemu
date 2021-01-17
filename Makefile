@@ -1,25 +1,25 @@
 BIN = bin
 SRC = src
-TEST_DIR = $(SRC)/test
+EXAMPLE_DIR = example
 
 DOCKER = docker run --rm -v $(shell pwd):/workdir multiarch/crossbuild
 CROSS_ENV_DIR = /usr/mipsel-linux-gnu/bin
 
-CC = $(DOCKER) $(CROSS_ENV_DIR)/cc 
+CC = $(DOCKER) $(CROSS_ENV_DIR)/cc
 LD = $(DOCKER) $(CROSS_ENV_DIR)/ld
 COPY = $(DOCKER) $(CROSS_ENV_DIR)/objcopy
 DUMP = $(DOCKER) $(CROSS_ENV_DIR)/objdump
 
-.PHONY: test test_elf test 
+.PHONY: example example_elf example_bin
 
-test:
-	$(CC) -ffreestanding -nostdlib -c $(TEST_DIR)/test.c -o $(TEST_DIR)/test.o
-	$(LD) -T $(TEST_DIR)/linker.ld -o $(BIN)/test.elf $(TEST_DIR)/test.o
-	$(COPY) -O binary --only-section=.text --only-section=.data $(BIN)/test.elf $(BIN)/test
+example:
+	$(CC) -ffreestanding -nostdlib -c $(EXAMPLE_DIR)/main.c -o $(EXAMPLE_DIR)/main.o
+	$(LD) -T $(EXAMPLE_DIR)/linker.ld -o $(BIN)/main.elf $(EXAMPLE_DIR)/main.o
+	$(COPY) -O binary --only-section=.text --only-section=.data $(BIN)/main.elf $(BIN)/main
 
-elf:
-	$(DUMP) -D $(BIN)/test.elf
+example_elf:
+	$(DUMP) -D $(BIN)/main.elf
 
-dump:
-	$(DUMP) -m mips -b binary --endian=little -D $(BIN)/test
+example_bin:
+	$(DUMP) -m mips -b binary --endian=little -D $(BIN)/main
 	
