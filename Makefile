@@ -14,12 +14,12 @@ DUMP = $(DOCKER) $(CROSS_ENV_DIR)/objdump
 .PHONY: example example_elf example_bin
 
 example:
-	$(CC) -ffreestanding -nostdlib -c $(EXAMPLE_DIR)/main.c -o $(EXAMPLE_DIR)/main.o
+	$(CC) -ffreestanding -nostdlib -march=mips1 -c $(EXAMPLE_DIR)/main.c -o $(EXAMPLE_DIR)/main.o
 	$(LD) -T $(EXAMPLE_DIR)/linker.ld -o $(BIN)/main.elf $(EXAMPLE_DIR)/main.o
 	$(COPY) -O binary --only-section=.text --only-section=.data $(BIN)/main.elf $(BIN)/main
 
 example_as:
-	$(AS) -o $(EXAMPLE_DIR)/main.o $(EXAMPLE_DIR)/main.S
+	$(AS) -march=mips1 -o $(EXAMPLE_DIR)/main.o $(EXAMPLE_DIR)/main.S
 	$(LD) -T $(EXAMPLE_DIR)/linker.ld -o $(BIN)/main.elf $(EXAMPLE_DIR)/main.o
 	$(COPY) -O binary --only-section=.text --only-section=.data $(BIN)/main.elf $(BIN)/main
 
