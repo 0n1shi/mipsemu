@@ -11,7 +11,13 @@ LD = $(DOCKER) $(CROSS_ENV_DIR)/ld
 COPY = $(DOCKER) $(CROSS_ENV_DIR)/objcopy
 DUMP = $(DOCKER) $(CROSS_ENV_DIR)/objdump
 
-.PHONY: example example_elf example_bin
+.PHONY: build example example_elf example_bin
+
+all: build
+	$(shell which go) build -o $(BIN)/emu ./cmd/emu/
+
+build:
+
 
 example:
 	$(CC) -ffreestanding -nostdlib -march=mips1 -c $(EXAMPLE_DIR)/main.c -o $(EXAMPLE_DIR)/main.o

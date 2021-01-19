@@ -17,6 +17,8 @@ var Registers []string = []string{
 	"ra",
 }
 
+const InstructionSize = 8 // byte
+
 type CPU struct {
 	PC int32
 
