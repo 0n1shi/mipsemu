@@ -14,10 +14,9 @@ DUMP = $(DOCKER) $(CROSS_ENV_DIR)/objdump
 .PHONY: build example example_elf example_bin
 
 all: build
-	$(shell which go) build -o $(BIN)/emu ./cmd/emu/
 
 build:
-
+	$(shell which go) build -o $(BIN)/emu ./cmd/emu/
 
 example:
 	$(CC) -ffreestanding -nostdlib -march=mips1 -c $(EXAMPLE_DIR)/main.c -o $(EXAMPLE_DIR)/main.o
