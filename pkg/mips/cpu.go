@@ -137,7 +137,8 @@ func (cpu *CPU) Decode(ins uint32) (*Instruction, error) {
 	switch opcodeType {
 	case OpcodeTypeR:
 		funcCode := byte(ins & 0x3F)
-
+	case OpcodeTypeI:
+	case OpcodeTypeJ:
 	}
 
 	return &Instruction{}, nil

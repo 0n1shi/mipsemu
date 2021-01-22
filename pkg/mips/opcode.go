@@ -10,10 +10,10 @@ const (
 	OpcodeTypeJ
 )
 
-var OpcodeMapTypeR = map[byte]InstructionFunction{
+var OpcodeMapTypeR = map[byte]Function{
 	0b000000: func(cpu *CPU, ins *Instruction) error { return nil }, // dummy function
 }
-var OpcodeMapTypeI = map[byte]InstructionFunction{
+var OpcodeMapTypeI = map[byte]Function{
 	0b001000: Addi,
 	0b001001: Addiu,
 	0b001100: Andi,
@@ -39,7 +39,7 @@ var OpcodeMapTypeI = map[byte]InstructionFunction{
 	0b111001: Swc1,
 	0b001110: Xori,
 }
-var OpcodeMapTypeJ = map[byte]InstructionFunction{
+var OpcodeMapTypeJ = map[byte]Function{
 	0b000010: J,
 	0b000011: Jal,
 }
