@@ -1,5 +1,7 @@
 package mips
 
+import "errors"
+
 const GeneralPurposeRegisterCount = 32
 
 type CPU struct {
@@ -119,33 +121,77 @@ func NewCPU(mem *Memory) *CPU {
 	return &cpu
 }
 
-func (cpu *CPU) Fetch() uint32 {
-	ins := uint32(0)
+func (cpu *CPU) Fetch() int {
+	ins := 0
 	for i := 0; i < 4; i++ {
-		ins = (ins << 8) | uint32(cpu.Memory[cpu.PC])
+		ins = (ins << 8) | int(cpu.Memory[cpu.PC])
 	}
 	return ins
 }
 
-func (cpu *CPU) Decode(insData uint32) (*Instruction, error) {
-	opcode := byte(insData >> 26)
+func (cpu *CPU) Decode(insData int) (*Instruction, error) {
+	opcode := insData >> 26
 	opcodeType, err := getOpcodeType(opcode)
 	if err != nil {
 		panic(err)
 	}
 
-	var ins *Instruction
+	ins := &Instruction{}
+	ins.Opcode = opcode
+	ins.OpcodeType = opcodeType
+
 	switch opcodeType {
 	case OpcodeTypeR:
+		insTypeR := &InstructionTypeR{}
+		insTypeR.FuncCode = insData & 0x3F
+		insTypeR.ShiftAmount = (insData >> 6) & 0x1F
+		insTypeR.DestinationRegister = (insData >> 11) & 0x1F
+		insTypeR.TargetRegister = (insData >> 16) & 0x1F
+		insTypeR.SourceRegister = (insData >> 21) & 0x1F
 
+		// t type instruction, opcode is always 0
+		f, ok := FunctionTypeRMap[insTypeR.FuncCode]
+		if !ok {
+			return nil, errors.New("invalid func code")
+		}
+		insTypeR.Function = f
+
+		ins.TypeR = insTypeR
 	case OpcodeTypeI:
-		fallthrough
+		insTypeI := &InstructionTypeI{}
+		insTypeI.Immediate = insData & 0xFFFF
+		insTypeI.TargetRegister = (insData >> 16) & 0x1F
+		insTypeI.SourceRegister = (insData >> 21) & 0x1F
+
+		f, ok := FunctionTypeIMap[opcode]
+		if !ok {
+			return nil, errors.New("invalid opcode")
+		}
+		if opcode == 0b000001 {
+			f, ok = FunctionTypeITargetAddressMap[insTypeI.TargetRegister]
+			if !ok {
+				return nil, errors.New("invalid target address or opcode")
+			}
+		}
+		insTypeI.Function = f
+
+		ins.TypeI = insTypeI
 	case OpcodeTypeJ:
+		insTypeJ := &InstructionTypeJ{}
+		insTypeJ.TargetAddress = insData & 0x3FFFFFF
+
+		f, ok := FunctionTypeJMap[opcode]
+		if !ok {
+			return nil, errors.New("invalid opcode")
+		}
+		insTypeJ.Function = f
+
+		ins.TypeJ = insTypeJ
 	}
 
-	return &Instruction{}, nil
+	return ins, nil
 }
 
 func (cpu *CPU) Execute(ins *Instruction) {
-	(*ins.Function)(cpu, ins)
+
 }

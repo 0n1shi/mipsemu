@@ -1,6 +1,7 @@
 package mips
 
-var FunctionCodeMap = map[byte]Function{
+// func code
+var FunctionTypeRMap = map[int]FunctionTypeR{
 	0b100000: Add,
 	0b100001: Addu,
 	0b100100: And,
@@ -31,13 +32,14 @@ var FunctionCodeMap = map[byte]Function{
 	0b100110: Xor,
 }
 
-var OpcodeMap = map[byte]Function{
+// Opcode
+var FunctionTypeIMap = map[int]FunctionTypeI{
 	// 0b000000: Dummy, // R type
 	0b001000: Addi,
 	0b001001: Addiu,
 	0b001100: Andi,
 	0b000100: Beq,
-	0b000001: Dummy, // bgez or bltz
+	0b000001: DummyTypeI, // bgez or bltz
 	0b000111: Bgtz,
 	0b000110: Blez,
 	0b000101: Bne,
@@ -58,14 +60,45 @@ var OpcodeMap = map[byte]Function{
 	0b001110: Xori,
 }
 
-type Function func(cpu *CPU, ins *Instruction) error
+var FunctionTypeITargetAddressMap = map[int]FunctionTypeI{
+	0b00001: Bgez,
+	0b00000: Bltz,
+}
+
+// Opcode
+var FunctionTypeJMap = map[int]FunctionTypeJ{
+	0b000010: J,
+	0b000011: Jal,
+}
 
 type Instruction struct {
-	DestinationRegister int
+	Opcode     int
+	OpcodeType OpcodeType
+	TypeR      *InstructionTypeR
+	TypeI      *InstructionTypeI
+	TypeJ      *InstructionTypeJ
+}
+
+type InstructionTypeR struct {
 	SourceRegister      int
 	TargetRegister      int
+	DestinationRegister int
 	ShiftAmount         int
-	Immediate           int
-	Function            *Function
-	Data                uint32
+	FuncCode            int
+
+	Function func(cpu *CPU, rs int, rt int, rd int, sa int) error
+}
+
+type InstructionTypeI struct {
+	SourceRegister int
+	TargetRegister int
+	Immediate      int
+
+	Function func(cpu *CPU, rs int, rt int, imm int) error
+}
+
+type InstructionTypeJ struct {
+	TargetAddress int
+
+	Function func(cpu *CPU, addr int) error
 }

@@ -18,3 +18,5 @@ It consists of the 32-bit wide program counter (PC), and a bank of 32 general-pu
 | r29      | $sp           | Stack pointer                |
 | r30      | $fp           | Frame pointer                |
 | r31      | $ra           | Return address               |
+
+## Opcode type
