@@ -22,7 +22,7 @@ func NewEmulator(text []byte) (*Emulator, error) {
 	return &Emulator{
 		CPU:              NewCPU(mem),
 		Memory:           mem,
-		InstructionCount: len(text) / 4, // 32bit
+		InstructionCount: len(text) / 4, // 32bit per an instruction
 	}, nil
 }
 

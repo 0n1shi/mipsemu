@@ -127,17 +127,19 @@ func (cpu *CPU) Fetch() uint32 {
 	return ins
 }
 
-func (cpu *CPU) Decode(ins uint32) (*Instruction, error) {
-	opcode := byte(ins >> 26)
+func (cpu *CPU) Decode(insData uint32) (*Instruction, error) {
+	opcode := byte(insData >> 26)
 	opcodeType, err := getOpcodeType(opcode)
 	if err != nil {
 		panic(err)
 	}
 
+	var ins *Instruction
 	switch opcodeType {
 	case OpcodeTypeR:
-		funcCode := byte(ins & 0x3F)
+
 	case OpcodeTypeI:
+		fallthrough
 	case OpcodeTypeJ:
 	}
 
@@ -145,5 +147,5 @@ func (cpu *CPU) Decode(ins uint32) (*Instruction, error) {
 }
 
 func (cpu *CPU) Execute(ins *Instruction) {
-	ins.Function(cpu, ins)
+	(*ins.Function)(cpu, ins)
 }

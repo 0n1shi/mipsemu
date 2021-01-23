@@ -11,17 +11,16 @@ const (
 )
 
 var OpcodeMapTypeR = map[byte]Function{
-	0b000000: func(cpu *CPU, ins *Instruction) error { return nil }, // dummy function
+	0b000000: Dummy,
 }
 var OpcodeMapTypeI = map[byte]Function{
 	0b001000: Addi,
 	0b001001: Addiu,
 	0b001100: Andi,
 	0b000100: Beq,
-	0b000001: Bgez, // or Bltz
+	0b000001: Dummy, // Bgez or Bltz
 	0b000111: Bgtz,
 	0b000110: Blez,
-	// 0b000001: Bltz // or Bgez,
 	0b000101: Bne,
 	0b100000: Lb,
 	0b100100: Lbu,

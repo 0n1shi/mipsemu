@@ -59,3 +59,6 @@ func Xori(cpu *CPU, ins *Instruction) error  { return nil }
 // J Type Instructions
 func J(cpu *CPU, ins *Instruction) error   { return nil }
 func Jal(cpu *CPU, ins *Instruction) error { return nil }
+
+// Dummy
+func Dummy(cpu *CPU, ins *Instruction) error { return nil }

@@ -31,7 +31,32 @@ var FunctionCodeMap = map[byte]Function{
 	0b100110: Xor,
 }
 
-var OpcodeMap = map[byte]Function{}
+var OpcodeMap = map[byte]Function{
+	// 0b000000: Dummy, // R type
+	0b001000: Addi,
+	0b001001: Addiu,
+	0b001100: Andi,
+	0b000100: Beq,
+	0b000001: Dummy, // bgez or bltz
+	0b000111: Bgtz,
+	0b000110: Blez,
+	0b000101: Bne,
+	0b100000: Lb,
+	0b100100: Lbu,
+	0b100001: Lh,
+	0b100101: Lhu,
+	0b001111: Lui,
+	0b100011: Lw,
+	0b110001: Lwc1,
+	0b001101: Ori,
+	0b101000: Sb,
+	0b001010: Slti,
+	0b001011: Sltiu,
+	0b101001: Sh,
+	0b101011: Sw,
+	0b111001: Swc1,
+	0b001110: Xori,
+}
 
 type Function func(cpu *CPU, ins *Instruction) error
 
@@ -41,5 +66,6 @@ type Instruction struct {
 	TargetRegister      int
 	ShiftAmount         int
 	Immediate           int
-	Function            Function
+	Function            *Function
+	Data                uint32
 }
