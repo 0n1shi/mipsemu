@@ -26,13 +26,17 @@ func NewEmulator(text []byte) (*Emulator, error) {
 	}, nil
 }
 
-func (emu *Emulator) Run() {
+func (emu *Emulator) Run() error {
 	for i := 0; i < emu.InstructionCount; i++ {
-		insData := emu.CPU.Fetch()
-		ins, err := emu.CPU.Decode(insData)
+		data := emu.CPU.Fetch()
+		ins, err := emu.CPU.Decode(data)
 		if err != nil {
-			panic(err)
+			return err
 		}
-		emu.CPU.Execute(ins)
+		err = emu.CPU.Execute(ins)
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }

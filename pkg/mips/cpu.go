@@ -1,6 +1,8 @@
 package mips
 
-import "errors"
+import (
+	"errors"
+)
 
 const GeneralPurposeRegisterCount = 32
 
@@ -123,9 +125,10 @@ func NewCPU(mem *Memory) *CPU {
 
 func (cpu *CPU) Fetch() int {
 	ins := 0
-	for i := 0; i < 4; i++ {
-		ins = (ins << 8) | int(cpu.Memory[cpu.PC])
+	for i := cpu.PC + 3; i >= cpu.PC; i-- {
+		ins = (ins << 8) | int(cpu.Memory[i])
 	}
+	cpu.PC += 4
 	return ins
 }
 
@@ -192,6 +195,18 @@ func (cpu *CPU) Decode(insData int) (*Instruction, error) {
 	return ins, nil
 }
 
-func (cpu *CPU) Execute(ins *Instruction) {
-
+func (cpu *CPU) Execute(ins *Instruction) error {
+	var err error
+	switch ins.OpcodeType {
+	case OpcodeTypeR:
+		r := ins.TypeR
+		err = r.Function(cpu, r.SourceRegister, r.TargetRegister, r.DestinationRegister, r.ShiftAmount)
+	case OpcodeTypeI:
+		i := ins.TypeI
+		err = i.Function(cpu, i.SourceRegister, i.TargetRegister, i.Immediate)
+	case OpcodeTypeJ:
+		j := ins.TypeJ
+		err = j.Function(cpu, j.TargetAddress)
+	}
+	return err
 }
