@@ -1,5 +1,7 @@
 package mips
 
+import "fmt"
+
 // R Type Instructions
 type FunctionTypeR func(cpu *CPU, rs int, rt int, rd int, sa int) error
 
@@ -35,24 +37,39 @@ func Xor(cpu *CPU, rs int, rt int, rd int, sa int) error     { return nil }
 // I Type Instruction
 type FunctionTypeI func(cpu *CPU, rs int, rt int, imm int) error
 
-func Addi(cpu *CPU, rs int, rt int, imm int) error       { return nil }
-func Addiu(cpu *CPU, rs int, rt int, imm int) error      { return nil }
-func Andi(cpu *CPU, rs int, rt int, imm int) error       { return nil }
-func Beq(cpu *CPU, rs int, rt int, imm int) error        { return nil }
-func Bgez(cpu *CPU, rs int, rt int, imm int) error       { return nil }
-func Bgtz(cpu *CPU, rs int, rt int, imm int) error       { return nil }
-func Blez(cpu *CPU, rs int, rt int, imm int) error       { return nil }
-func Bltz(cpu *CPU, rs int, rt int, imm int) error       { return nil }
-func Bne(cpu *CPU, rs int, rt int, imm int) error        { return nil }
-func Lb(cpu *CPU, rs int, rt int, imm int) error         { return nil }
-func Lbu(cpu *CPU, rs int, rt int, imm int) error        { return nil }
-func Lh(cpu *CPU, rs int, rt int, imm int) error         { return nil }
-func Lhu(cpu *CPU, rs int, rt int, imm int) error        { return nil }
-func Lui(cpu *CPU, rs int, rt int, imm int) error        { return nil }
-func Lw(cpu *CPU, rs int, rt int, imm int) error         { return nil }
-func Lwc1(cpu *CPU, rs int, rt int, imm int) error       { return nil }
-func Ori(cpu *CPU, rs int, rt int, imm int) error        { return nil }
-func Sb(cpu *CPU, rs int, rt int, imm int) error         { return nil }
+func Addi(cpu *CPU, rs int, rt int, imm int) error {
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "addi")
+		fmt.Printf("%s,%s,%d\n", registerNames[rt], registerNames[rs], imm)
+	}
+
+	*cpu.Registers[rt] = *cpu.Registers[rs] + int32(imm)
+	return nil
+}
+func Addiu(cpu *CPU, rs int, rt int, imm int) error { return nil }
+func Andi(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Beq(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Bgez(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Bgtz(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Blez(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Bltz(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Bne(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Lb(cpu *CPU, rs int, rt int, imm int) error    { return nil }
+func Lbu(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Lh(cpu *CPU, rs int, rt int, imm int) error    { return nil }
+func Lhu(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Lui(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Lw(cpu *CPU, rs int, rt int, imm int) error    { return nil }
+func Lwc1(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Ori(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Sb(cpu *CPU, rs int, rt int, imm int) error {
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "sb")
+		fmt.Printf("%s,%d(%s)\n", registerNames[rt], int16(imm), registerNames[rs])
+	}
+	cpu.Memory[int(*cpu.Registers[rs])+int(int16(imm))] = byte(*cpu.Registers[rt])
+	return nil
+}
 func Slti(cpu *CPU, rs int, rt int, imm int) error       { return nil }
 func Sltiu(cpu *CPU, rs int, rt int, imm int) error      { return nil }
 func Sh(cpu *CPU, rs int, rt int, imm int) error         { return nil }

@@ -81,7 +81,7 @@ func NewCPU(mem *Memory, debugMode bool) *CPU {
 		K0:        0,
 		K1:        0,
 		GP:        0,
-		SP:        0,
+		SP:        0xFFFF,
 		FP:        0,
 		RA:        0,
 		Registers: [32]*int32{},
@@ -201,6 +201,8 @@ func (cpu *CPU) Decode(insData int) (*Instruction, error) {
 
 		ins.TypeJ = insTypeJ
 	}
+
+	//cpu.printInstruction(ins) // debug
 
 	return ins, nil
 }
