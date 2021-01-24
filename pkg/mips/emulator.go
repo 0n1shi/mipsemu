@@ -2,7 +2,6 @@ package mips
 
 import (
 	"errors"
-	"fmt"
 )
 
 type Emulator struct {
@@ -33,7 +32,7 @@ func NewEmulator(text []byte, debug bool) (*Emulator, error) {
 }
 
 func (emu *Emulator) Run() error {
-	emu.InstructionCount = 4 // debug
+	emu.InstructionCount = 5 // debug
 	for i := 0; i < emu.InstructionCount; i++ {
 		data, _ := emu.CPU.Fetch()
 		ins, err := emu.CPU.Decode(data)
@@ -46,6 +45,7 @@ func (emu *Emulator) Run() error {
 		}
 	}
 
-	fmt.Printf("cpu: %+v\n", emu.CPU)
+	emu.CPU.printCPU()
+	emu.CPU.printStack()
 	return nil
 }

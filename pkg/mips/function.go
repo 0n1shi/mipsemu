@@ -54,14 +54,21 @@ func Bgtz(cpu *CPU, rs int, rt int, imm int) error  { return nil }
 func Blez(cpu *CPU, rs int, rt int, imm int) error  { return nil }
 func Bltz(cpu *CPU, rs int, rt int, imm int) error  { return nil }
 func Bne(cpu *CPU, rs int, rt int, imm int) error   { return nil }
-func Lb(cpu *CPU, rs int, rt int, imm int) error    { return nil }
-func Lbu(cpu *CPU, rs int, rt int, imm int) error   { return nil }
-func Lh(cpu *CPU, rs int, rt int, imm int) error    { return nil }
-func Lhu(cpu *CPU, rs int, rt int, imm int) error   { return nil }
-func Lui(cpu *CPU, rs int, rt int, imm int) error   { return nil }
-func Lw(cpu *CPU, rs int, rt int, imm int) error    { return nil }
-func Lwc1(cpu *CPU, rs int, rt int, imm int) error  { return nil }
-func Ori(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Lb(cpu *CPU, rs int, rt int, imm int) error {
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "lb")
+		fmt.Printf("%s,%d(%s)\n", registerNames[rt], int16(imm), registerNames[rs])
+	}
+	*cpu.Registers[rt] = int32(cpu.Memory[int(*cpu.Registers[rs])+int(int16(imm))])
+	return nil
+}
+func Lbu(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Lh(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Lhu(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Lui(cpu *CPU, rs int, rt int, imm int) error  { return nil }
+func Lw(cpu *CPU, rs int, rt int, imm int) error   { return nil }
+func Lwc1(cpu *CPU, rs int, rt int, imm int) error { return nil }
+func Ori(cpu *CPU, rs int, rt int, imm int) error  { return nil }
 func Sb(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "sb")
