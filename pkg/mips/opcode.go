@@ -12,7 +12,7 @@ const (
 )
 
 func getOpcodeType(opcode int) (OpcodeType, error) {
-	if _, ok := FunctionTypeRMap[opcode]; ok {
+	if opcode == 0 {
 		return OpcodeTypeR, nil
 	}
 	if _, ok := FunctionTypeIMap[opcode]; ok {

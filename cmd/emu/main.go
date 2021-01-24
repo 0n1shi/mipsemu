@@ -11,9 +11,6 @@ import (
 
 var (
 	version = "unset"
-	commit  = "unset"
-	date    = "unset"
-	builtBy = "unset"
 )
 
 func main() {
@@ -21,14 +18,19 @@ func main() {
 		&cli.StringFlag{
 			Name:     "file",
 			Aliases:  []string{"f"},
-			Usage:    "A file path of NES ROM",
+			Usage:    "A file path of MIPS binary",
 			Required: true,
+		},
+		&cli.BoolFlag{
+			Name:    "debug",
+			Aliases: []string{"d"},
+			Usage:   "Running in debug mode",
 		},
 	}
 
 	app := cli.App{
 		Name:    "Misper",
-		Usage:   `A MIPS 1 CPU Emulator written in Golang`,
+		Usage:   `A MIPS CPU Emulator written in Golang`,
 		Version: version,
 		Action:  run,
 		Flags:   flags,
@@ -40,19 +42,18 @@ func main() {
 }
 
 func run(c *cli.Context) error {
-	romFile := c.String("file")
+	file := c.String("file")
+	debug := c.Bool("debug")
 
-	data, err := ioutil.ReadFile(romFile)
+	data, err := ioutil.ReadFile(file)
 	if err != nil {
 		return err
 	}
 
-	emu, err := mips.NewEmulator(data)
+	emu, err := mips.NewEmulator(data, debug)
 	if err != nil {
 		return err
 	}
 
-	emu.Run()
-
-	return nil
+	return emu.Run()
 }

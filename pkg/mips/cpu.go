@@ -1,13 +1,13 @@
 package mips
 
 import (
-	"errors"
+	"fmt"
 )
 
 const GeneralPurposeRegisterCount = 32
 
 type CPU struct {
-	PC int32 // Program Counter
+	PC int // Program Counter
 
 	Zero int32 // Always returns 0
 	AT   int32 // (assembler temporary) Reserved for use by assembler
@@ -45,9 +45,11 @@ type CPU struct {
 	Registers [GeneralPurposeRegisterCount]*int32
 
 	Memory *Memory
+
+	DebugMode bool
 }
 
-func NewCPU(mem *Memory) *CPU {
+func NewCPU(mem *Memory, debugMode bool) *CPU {
 	cpu := CPU{
 		PC:        0,
 		Zero:      0,
@@ -84,6 +86,7 @@ func NewCPU(mem *Memory) *CPU {
 		RA:        0,
 		Registers: [32]*int32{},
 		Memory:    mem,
+		DebugMode: debugMode,
 	}
 	cpu.Registers = [32]*int32{
 		&cpu.Zero,
@@ -123,13 +126,20 @@ func NewCPU(mem *Memory) *CPU {
 	return &cpu
 }
 
-func (cpu *CPU) Fetch() int {
+func (cpu *CPU) Fetch() (int, int) {
 	ins := 0
+
+	cpu.printAddr() // if debug mode
+
 	for i := cpu.PC + 3; i >= cpu.PC; i-- {
 		ins = (ins << 8) | int(cpu.Memory[i])
 	}
+
+	cpu.printRawData(ins) // if debug mode
+
+	pc := cpu.PC
 	cpu.PC += 4
-	return ins
+	return ins, pc
 }
 
 func (cpu *CPU) Decode(insData int) (*Instruction, error) {
@@ -155,7 +165,7 @@ func (cpu *CPU) Decode(insData int) (*Instruction, error) {
 		// t type instruction, opcode is always 0
 		f, ok := FunctionTypeRMap[insTypeR.FuncCode]
 		if !ok {
-			return nil, errors.New("invalid func code")
+			return nil, fmt.Errorf("invalid func code: 0b%06b", insTypeR.FuncCode)
 		}
 		insTypeR.Function = f
 
@@ -168,12 +178,12 @@ func (cpu *CPU) Decode(insData int) (*Instruction, error) {
 
 		f, ok := FunctionTypeIMap[opcode]
 		if !ok {
-			return nil, errors.New("invalid opcode")
+			return nil, fmt.Errorf("invalid opcode: 0b%06b", opcode)
 		}
 		if opcode == 0b000001 {
 			f, ok = FunctionTypeITargetAddressMap[insTypeI.TargetRegister]
 			if !ok {
-				return nil, errors.New("invalid target address or opcode")
+				return nil, fmt.Errorf("invalid target register: %d", insTypeI.TargetRegister)
 			}
 		}
 		insTypeI.Function = f
@@ -185,7 +195,7 @@ func (cpu *CPU) Decode(insData int) (*Instruction, error) {
 
 		f, ok := FunctionTypeJMap[opcode]
 		if !ok {
-			return nil, errors.New("invalid opcode")
+			return nil, fmt.Errorf("invalid opcode: 0b%06b", opcode)
 		}
 		insTypeJ.Function = f
 
