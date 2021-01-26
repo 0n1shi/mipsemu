@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/0n1shi/mipsemu/pkg/mips"
+	"github.com/pkg/errors"
 	cli "github.com/urfave/cli/v2"
 )
 
@@ -47,12 +48,12 @@ func run(c *cli.Context) error {
 
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	emu, err := mips.NewEmulator(data, debug)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	return emu.Run()

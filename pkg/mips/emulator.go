@@ -2,6 +2,8 @@ package mips
 
 import (
 	"errors"
+
+	errs "github.com/pkg/errors"
 )
 
 type Emulator struct {
@@ -32,16 +34,15 @@ func NewEmulator(text []byte, debug bool) (*Emulator, error) {
 }
 
 func (emu *Emulator) Run() error {
-	emu.InstructionCount = 5 // debug
 	for i := 0; i < emu.InstructionCount; i++ {
 		data, _ := emu.CPU.Fetch()
 		ins, err := emu.CPU.Decode(data)
 		if err != nil {
-			return err
+			return errs.WithStack(err)
 		}
 		err = emu.CPU.Execute(ins)
 		if err != nil {
-			return err
+			return errs.WithStack(err)
 		}
 	}
 

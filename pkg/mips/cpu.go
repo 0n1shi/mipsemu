@@ -2,6 +2,8 @@ package mips
 
 import (
 	"fmt"
+
+	"github.com/pkg/errors"
 )
 
 const GeneralPurposeRegisterCount = 32
@@ -146,7 +148,7 @@ func (cpu *CPU) Decode(insData int) (*Instruction, error) {
 	opcode := insData >> 26
 	opcodeType, err := getOpcodeType(opcode)
 	if err != nil {
-		panic(err)
+		return nil, errors.WithStack(err)
 	}
 
 	ins := &Instruction{}
@@ -220,5 +222,5 @@ func (cpu *CPU) Execute(ins *Instruction) error {
 		j := ins.TypeJ
 		err = j.Function(cpu, j.TargetAddress)
 	}
-	return err
+	return errors.WithStack(err)
 }
