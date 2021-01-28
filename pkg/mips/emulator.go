@@ -45,8 +45,10 @@ func (emu *Emulator) Run() error {
 			return errs.WithStack(err)
 		}
 	}
+	return nil
+}
 
+func (emu *Emulator) Dump() {
 	emu.CPU.printCPU()
 	emu.CPU.printStack()
-	return nil
 }

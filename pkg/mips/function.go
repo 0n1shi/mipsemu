@@ -9,68 +9,73 @@ import (
 type FunctionTypeR func(cpu *CPU, rs int, rt int, rd int, sa int) error
 
 func Add(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"add\" not implemented)\n")
 	return errors.New("not implemented: add")
 }
 func Addu(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
-	return errors.New("not implemented: addu")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "addu")
+		fmt.Printf("%s,%s,%s\n", registerNames[rd], registerNames[rs], registerNames[rt])
+	}
+
+	*cpu.Registers[rd] = *cpu.Registers[rs] + *cpu.Registers[rt]
+	return nil
 }
 func And(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"and\" not implemented)\n")
 	return errors.New("not implemented: and")
 }
 func Break(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"break\" not implemented)\n")
 	return errors.New("not implemented: break")
 }
 func Div(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"div\" not implemented)\n")
 	return errors.New("not implemented: div")
 }
 func Divu(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"divu\" not implemented)\n")
 	return errors.New("not implemented: divu")
 
 }
 func Jalr(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"jalr\" not implemented)\n")
 	return errors.New("not implemented: jalr")
 }
 func Jr(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"jr\" not implemented)\n")
 	return errors.New("not implemented: jr")
 }
 func Mfhi(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"mfhi\" not implemented)\n")
 	return errors.New("not implemented: mfhi")
 }
 func Mflo(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"mflo\" not implemented)\n")
 	return errors.New("not implemented: mflo")
 }
 func Mthi(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"mthi\" not implemented)\n")
 	return errors.New("not implemented: mthi")
 }
 func Mtlo(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"mtlo\" not implemented)\n")
 	return errors.New("not implemented: mtlo")
 }
 func Mult(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"mult\" not implemented)\n")
 	return errors.New("not implemented: mult")
 }
 func Multu(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"multu\" not implemented)\n")
 	return errors.New("not implemented: multu")
 }
 func Nor(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"nor\" not implemented)\n")
 	return errors.New("not implemented: nor")
 }
 func Or(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"or\" not implemented)\n")
 	return errors.New("not implemented: or")
 }
 func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
@@ -83,47 +88,47 @@ func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	return nil
 }
 func Sllv(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"sllv\" not implemented)\n")
 	return errors.New("not implemented: sllv")
 }
 func Slt(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"slt\" not implemented)\n")
 	return errors.New("not implemented: slt")
 }
 func Sltu(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"sltu\" not implemented)\n")
 	return errors.New("not implemented: sltu")
 }
 func Sra(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"sra\" not implemented)\n")
 	return errors.New("not implemented: sra")
 }
 func Srav(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"srav\" not implemented)\n")
 	return errors.New("not implemented: srav")
 }
 func Srl(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"srl\" not implemented)\n")
 	return errors.New("not implemented: srl")
 }
 func Srlv(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"srlv\" not implemented)\n")
 	return errors.New("not implemented: srlv")
 }
 func Sub(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"sub\" not implemented)\n")
 	return errors.New("not implemented: sub")
 }
 func Subu(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"subu\" not implemented)\n")
 	return errors.New("not implemented: subu")
 }
 func Syscall(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"syscall\" not implemented)\n")
 	return errors.New("not implemented: syscall")
 }
 func Xor(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"xor\" not implemented)\n")
 	return errors.New("not implemented: xor")
 }
 
@@ -150,31 +155,31 @@ func Addiu(cpu *CPU, rs int, rt int, imm int) error {
 	return nil
 }
 func Andi(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"andi\" not implemented)\n")
 	return errors.New("not implemented: andi")
 }
 func Beq(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"beq\" not implemented)\n")
 	return errors.New("not implemented: beq")
 }
 func Bgez(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"bgez\" not implemented)\n")
 	return errors.New("not implemented: bgez")
 }
 func Bgtz(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"bgtz\" not implemented)\n")
 	return errors.New("not implemented: bgtz")
 }
 func Blez(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"blez\" not implemented)\n")
 	return errors.New("not implemented: blez")
 }
 func Bltz(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"bltz\" not implemented)\n")
 	return errors.New("not implemented: bltz")
 }
 func Bne(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"bne\" not implemented)\n")
 	return errors.New("not implemented: bne")
 }
 func Lb(cpu *CPU, rs int, rt int, imm int) error {
@@ -186,31 +191,31 @@ func Lb(cpu *CPU, rs int, rt int, imm int) error {
 	return nil
 }
 func Lbu(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"lbu\" not implemented)\n")
 	return errors.New("not implemented: lbu")
 }
 func Lh(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"lh\" not implemented)\n")
 	return errors.New("not implemented: lh")
 }
 func Lhu(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"lhu\" not implemented)\n")
 	return errors.New("not implemented: lhu")
 }
 func Lui(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"lui\" not implemented)\n")
 	return errors.New("not implemented: lui")
 }
 func Lw(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"lw\" not implemented)\n")
 	return errors.New("not implemented: lw")
 }
 func Lwc1(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"lwc1\" not implemented)\n")
 	return errors.New("not implemented: lwc1")
 }
 func Ori(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"ori\" not implemented)\n")
 	return errors.New("not implemented: ori")
 }
 func Sb(cpu *CPU, rs int, rt int, imm int) error {
@@ -222,27 +227,37 @@ func Sb(cpu *CPU, rs int, rt int, imm int) error {
 	return nil
 }
 func Slti(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"slti\" not implemented)\n")
 	return errors.New("not implemented: slti")
 }
 func Sltiu(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"sltiu\" not implemented)\n")
 	return errors.New("not implemented: sltiu")
 }
 func Sh(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"sh\" not implemented)\n")
 	return errors.New("not implemented: sh")
 }
 func Sw(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
-	return errors.New("not implemented: sw")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "sw")
+		fmt.Printf("%s,%d(%s)\n", registerNames[rt], int16(imm), registerNames[rs])
+	}
+
+	addr := int(*cpu.Registers[rs]) + int(int16(imm))
+	value := *cpu.Registers[rt]
+	cpu.Memory[addr] = byte(value & 0xFF)
+	cpu.Memory[addr+1] = byte((value >> 8) & 0xFF)
+	cpu.Memory[addr+2] = byte((value >> 16) & 0xFF)
+	cpu.Memory[addr+3] = byte((value >> 24) & 0xFF)
+	return nil
 }
 func Swc1(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"swc1\" not implemented)\n")
 	return errors.New("not implemented: swc1")
 }
 func Xori(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"xori\" not implemented)\n")
 	return errors.New("not implemented: xori")
 }
 func DummyTypeI(cpu *CPU, rs int, rt int, imm int) error {
@@ -254,10 +269,10 @@ func DummyTypeI(cpu *CPU, rs int, rt int, imm int) error {
 type FunctionTypeJ func(cpu *CPU, addr int) error
 
 func J(cpu *CPU, addr int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"j\" not implemented)\n")
 	return errors.New("not implemented: j")
 }
 func Jal(cpu *CPU, addr int) error {
-	fmt.Printf("*(not implemented)\n")
+	fmt.Printf("*(\"jal\" not implemented)\n")
 	return errors.New("not implemented: jal")
 }

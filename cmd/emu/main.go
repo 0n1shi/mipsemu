@@ -56,5 +56,9 @@ func run(c *cli.Context) error {
 		return errors.WithStack(err)
 	}
 
-	return emu.Run()
+	if err = emu.Run(); err != nil {
+		emu.Dump()
+		return err
+	}
+	return nil
 }
