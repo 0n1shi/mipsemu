@@ -140,8 +140,14 @@ func Addi(cpu *CPU, rs int, rt int, imm int) error {
 	return nil
 }
 func Addiu(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("*(not implemented)\n")
-	return errors.New("not implemented: addiu")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "addiu")
+		fmt.Printf("%s,%s,%d\n", registerNames[rt], registerNames[rs], int16(imm))
+	}
+
+	*cpu.Registers[rt] = *cpu.Registers[rs] + int32(int16(imm))
+	// even when overflow, won't throw exception
+	return nil
 }
 func Andi(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("*(not implemented)\n")
