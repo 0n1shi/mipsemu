@@ -281,7 +281,14 @@ func J(cpu *CPU, addr int) error {
 	fmt.Printf("(\"j\" not implemented)\n")
 	return errors.New("not implemented: j")
 }
+
+// Jump And Link
 func Jal(cpu *CPU, addr int) error {
-	fmt.Printf("(\"jal\" not implemented)\n")
-	return errors.New("not implemented: jal")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "jal")
+		fmt.Printf("0x%08X\n", addr<<2)
+	}
+	cpu.RA = int32(cpu.PC)
+	cpu.PC = addr << 2
+	return nil
 }
