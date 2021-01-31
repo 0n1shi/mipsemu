@@ -42,9 +42,16 @@ func Jalr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"jalr\" not implemented)\n")
 	return errors.New("not implemented: jalr")
 }
+
+// Jump Register
 func Jr(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("(\"jr\" not implemented)\n")
-	return errors.New("not implemented: jr")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "jr")
+		fmt.Printf("%s\n", registerNames[rs])
+	}
+
+	cpu.PC = int(*cpu.Registers[rs])
+	return nil
 }
 func Mfhi(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"mfhi\" not implemented)\n")
@@ -75,8 +82,13 @@ func Nor(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	return errors.New("not implemented: nor")
 }
 func Or(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("(\"or\" not implemented)\n")
-	return errors.New("not implemented: or")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "or")
+		fmt.Printf("%s,%s,%s\n", registerNames[rd], registerNames[rs], registerNames[rt])
+	}
+
+	*cpu.Registers[rd] = *cpu.Registers[rs] | *cpu.Registers[rt]
+	return nil
 }
 func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
@@ -202,9 +214,16 @@ func Lhu(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"lhu\" not implemented)\n")
 	return errors.New("not implemented: lhu")
 }
+
+// Load Upper Immediate
 func Lui(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("(\"lui\" not implemented)\n")
-	return errors.New("not implemented: lui")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "lui")
+		fmt.Printf("%s, %04X\n", registerNames[rt], int16(imm))
+	}
+
+	*cpu.Registers[rt] = int32(imm << 16)
+	return nil
 }
 func Lw(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {

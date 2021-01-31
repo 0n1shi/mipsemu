@@ -12,6 +12,7 @@ type Emulator struct {
 	InstructionCount int
 
 	DebugMode bool
+	TextSize  int
 }
 
 func NewEmulator(text []byte, debug bool) (*Emulator, error) {
@@ -30,12 +31,16 @@ func NewEmulator(text []byte, debug bool) (*Emulator, error) {
 		Memory:           mem,
 		InstructionCount: len(text) / 4, // 32bit per an instruction
 		DebugMode:        debug,
+		TextSize:         len(text),
 	}, nil
 }
 
 func (emu *Emulator) Run() error {
-	for i := 0; i < emu.InstructionCount; i++ {
-		data, _ := emu.CPU.Fetch()
+	for {
+		data, pc := emu.CPU.Fetch()
+		if pc < 0 || pc > emu.TextSize {
+			break
+		}
 		ins, err := emu.CPU.Decode(data)
 		if err != nil {
 			return errs.WithStack(err)

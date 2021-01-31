@@ -4,6 +4,7 @@ SECTIONS
     .text : {
         *(.text)
         *(.data)
+        *(.bss)
     }
     /DISCARD/ : {
         *(.reginfo)
