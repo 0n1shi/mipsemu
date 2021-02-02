@@ -222,5 +222,6 @@ func (cpu *CPU) Execute(ins *Instruction) error {
 		j := ins.TypeJ
 		err = j.Function(cpu, j.TargetAddress)
 	}
+	cpu.Zero = 0 // reset
 	return errors.WithStack(err)
 }
