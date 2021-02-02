@@ -47,6 +47,9 @@ func (emu *Emulator) Run() error {
 		}
 		err = emu.CPU.Execute(ins)
 		if err != nil {
+			// if err.Error() == errorMsgForEndOfMain {
+			// 	return nil
+			// }
 			return errs.WithStack(err)
 		}
 	}

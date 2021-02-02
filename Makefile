@@ -19,12 +19,12 @@ build:
 	$(shell which go) build -o $(BIN)/emu ./cmd/emu/
 
 example:
-	$(CC) -ffreestanding -nostdlib -mips1 -c $(EXAMPLE_DIR)/main.c -o $(EXAMPLE_DIR)/main.o
+	$(CC) -ffreestanding -nostdlib -mips1 -O0 -c $(EXAMPLE_DIR)/main.c -o $(EXAMPLE_DIR)/main.o
 	$(LD) -T $(EXAMPLE_DIR)/linker.ld -o $(BIN)/main.elf $(EXAMPLE_DIR)/main.o
 	$(COPY) -O binary --only-section=.text --only-section=.data $(BIN)/main.elf $(BIN)/main
 
 example_as:
-	$(AS) -march=mips1 -o $(EXAMPLE_DIR)/main.o $(EXAMPLE_DIR)/main.S
+	$(AS) -mips1 -O0 -o $(EXAMPLE_DIR)/main.o $(EXAMPLE_DIR)/main.S
 	$(LD) -T $(EXAMPLE_DIR)/linker.ld -o $(BIN)/main.elf $(EXAMPLE_DIR)/main.o
 	$(COPY) -O binary --only-section=.text --only-section=.data $(BIN)/main.elf $(BIN)/main
 

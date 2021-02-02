@@ -38,7 +38,7 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err)
+		log.Fatalf("error: %+v", err)
 	}
 }
 
@@ -56,8 +56,9 @@ func run(c *cli.Context) error {
 		return errors.WithStack(err)
 	}
 
-	if err = emu.Run(); err != nil {
-		emu.Dump()
+	err = emu.Run()
+	emu.Dump()
+	if err != nil && err.Error() != mips.ErrorMsgForEndOfMain {
 		return err
 	}
 	return nil

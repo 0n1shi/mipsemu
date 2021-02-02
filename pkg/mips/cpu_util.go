@@ -53,7 +53,7 @@ func (cpu *CPU) printRawData(data int) {
 }
 
 func (cpu *CPU) printCPU() {
-	fmt.Println("=========================== CPU Registries ==========================")
+	fmt.Println("============================ CPU Registers ==========================")
 	fmt.Printf("PC:  0x%08X | ", cpu.PC)
 	fmt.Printf("Zero:%10d | ", cpu.Zero)
 	fmt.Printf("AT:  %10d | ", cpu.AT)

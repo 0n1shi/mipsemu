@@ -44,10 +44,16 @@ func Jalr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 }
 
 // Jump Register
+const ErrorMsgForEndOfMain = "end of main function"
+
 func Jr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "jr")
 		fmt.Printf("%s\n", registerNames[rs])
+	}
+
+	if *cpu.Registers[rs] == 0 {
+		return errors.New(ErrorMsgForEndOfMain)
 	}
 
 	cpu.PC = int(*cpu.Registers[rs])
