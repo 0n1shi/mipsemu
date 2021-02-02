@@ -52,7 +52,7 @@ func Jr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 		fmt.Printf("%s\n", registerNames[rs])
 	}
 
-	if *cpu.Registers[rs] == 0 {
+	if rs == 31 && cpu.SP == stackBaseAddr { // register source == ra register
 		return errors.New(ErrorMsgForEndOfMain)
 	}
 

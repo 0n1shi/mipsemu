@@ -51,6 +51,8 @@ type CPU struct {
 	DebugMode bool
 }
 
+const stackBaseAddr = 0xFFFF
+
 func NewCPU(mem *Memory, debugMode bool) *CPU {
 	cpu := CPU{
 		PC:        0,
@@ -83,7 +85,7 @@ func NewCPU(mem *Memory, debugMode bool) *CPU {
 		K0:        0,
 		K1:        0,
 		GP:        0,
-		SP:        0xFFFF,
+		SP:        stackBaseAddr,
 		FP:        0,
 		RA:        0,
 		Registers: [32]*int32{},
