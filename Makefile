@@ -26,6 +26,10 @@ ex_mult:
 	$(CC) -ffreestanding -nostdlib -mips1 -O0 -c $(EXAMPLE_DIR)/mult.c -o $(EXAMPLE_DIR)/main.o
 	@make build_ex
 
+ex_sub:
+	$(CC) -ffreestanding -nostdlib -mips1 -O0 -c $(EXAMPLE_DIR)/sub.c -o $(EXAMPLE_DIR)/main.o
+	@make build_ex
+
 ex_as:
 	$(AS) -mips1 -O0 -o $(EXAMPLE_DIR)/main.o $(EXAMPLE_DIR)/main.S
 	@make build_ex

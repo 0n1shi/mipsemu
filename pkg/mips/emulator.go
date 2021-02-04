@@ -58,5 +58,6 @@ func (emu *Emulator) Run() error {
 
 func (emu *Emulator) Dump() {
 	emu.CPU.printCPU()
+	emu.CPU.printData()
 	emu.CPU.printStack()
 }

@@ -1,11 +1,10 @@
 SECTIONS
 {
     . = 0x0000;
-    .text : {
-        *(.text)
-        *(.data)
-        *(.bss)
-    }
+    .text : { *(.text) }
+    . = 0x8000;
+    .data : { *(.data) }
+    .bss : { *(.bss) }
     /DISCARD/ : {
         *(.reginfo)
         *(.MIPS.abiflags)

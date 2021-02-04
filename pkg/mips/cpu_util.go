@@ -91,6 +91,19 @@ func (cpu *CPU) printCPU() {
 	fmt.Printf("LO:  %10d\n", cpu.LO)
 }
 
+func (cpu *CPU) printData() {
+	fmt.Println("===================== Data segment =======================")
+	for pc := 0x8000; pc <= 0x80FF; pc++ {
+		if pc%16 == 0 {
+			fmt.Printf("0x%04X:    ", pc)
+		}
+		fmt.Printf("%02X ", cpu.Memory[pc])
+		if pc%16 == 15 {
+			fmt.Println()
+		}
+	}
+}
+
 func (cpu *CPU) printStack() {
 	fmt.Println("==================== Stack on memory =====================")
 	for pc := 0xFF00; pc <= 0xFFFF; pc++ {

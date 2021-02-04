@@ -158,8 +158,14 @@ func Sub(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	return errors.New("not implemented: sub")
 }
 func Subu(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("(\"subu\" not implemented)\n")
-	return errors.New("not implemented: subu")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "subu")
+		fmt.Printf("%s,%s,%s\n", registerNames[rd], registerNames[rs], registerNames[rt])
+	}
+
+	*cpu.Registers[rd] = *cpu.Registers[rs] - *cpu.Registers[rt]
+
+	return nil
 }
 func Syscall(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"syscall\" not implemented)\n")
