@@ -76,8 +76,16 @@ func Mtlo(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	return errors.New("not implemented: mtlo")
 }
 func Mult(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("(\"mult\" not implemented)\n")
-	return errors.New("not implemented: mult")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "mult")
+		fmt.Printf("%s,%s\n", registerNames[rs], registerNames[rt])
+	}
+
+	result := int64(*cpu.Registers[rs]) * int64(*cpu.Registers[rt])
+	cpu.HI = int32(result >> 32)
+	cpu.LO = int32(result & 0xFFFFFFFF)
+
+	return nil
 }
 func Multu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"multu\" not implemented)\n")
@@ -94,6 +102,7 @@ func Or(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	}
 
 	*cpu.Registers[rd] = *cpu.Registers[rs] | *cpu.Registers[rt]
+
 	return nil
 }
 func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
@@ -103,6 +112,7 @@ func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	}
 
 	*cpu.Registers[rd] = *cpu.Registers[rt] << int16(sa)
+
 	return nil
 }
 func Sllv(cpu *CPU, rs int, rt int, rd int, sa int) error {
@@ -160,6 +170,7 @@ func Addi(cpu *CPU, rs int, rt int, imm int) error {
 	}
 
 	*cpu.Registers[rt] = *cpu.Registers[rs] + int32(int16(imm))
+
 	return nil
 }
 func Addiu(cpu *CPU, rs int, rt int, imm int) error {
@@ -168,8 +179,9 @@ func Addiu(cpu *CPU, rs int, rt int, imm int) error {
 		fmt.Printf("%s,%s,%d\n", registerNames[rt], registerNames[rs], int16(imm))
 	}
 
-	*cpu.Registers[rt] = *cpu.Registers[rs] + int32(int16(imm))
 	// even when overflow, won't throw exception
+	*cpu.Registers[rt] = *cpu.Registers[rs] + int32(int16(imm))
+
 	return nil
 }
 func Andi(cpu *CPU, rs int, rt int, imm int) error {
@@ -205,7 +217,9 @@ func Lb(cpu *CPU, rs int, rt int, imm int) error {
 		fmt.Printf("%-7s ", "lb")
 		fmt.Printf("%s,%d(%s)\n", registerNames[rt], int16(imm), registerNames[rs])
 	}
+
 	*cpu.Registers[rt] = int32(cpu.Memory[int(*cpu.Registers[rs])+int(int16(imm))])
+
 	return nil
 }
 func Lbu(cpu *CPU, rs int, rt int, imm int) error {
@@ -229,6 +243,7 @@ func Lui(cpu *CPU, rs int, rt int, imm int) error {
 	}
 
 	*cpu.Registers[rt] = int32(imm << 16)
+
 	return nil
 }
 func Lw(cpu *CPU, rs int, rt int, imm int) error {
@@ -242,6 +257,7 @@ func Lw(cpu *CPU, rs int, rt int, imm int) error {
 	value |= int32(cpu.Memory[int(int16(imm))+int(*cpu.Registers[rs])+2]) << 16
 	value |= int32(cpu.Memory[int(int16(imm))+int(*cpu.Registers[rs])+3]) << 24
 	*cpu.Registers[rt] = value
+
 	return nil
 }
 func Lwc1(cpu *CPU, rs int, rt int, imm int) error {
@@ -257,7 +273,9 @@ func Sb(cpu *CPU, rs int, rt int, imm int) error {
 		fmt.Printf("%-7s ", "sb")
 		fmt.Printf("%s,%d(%s)\n", registerNames[rt], int16(imm), registerNames[rs])
 	}
+
 	cpu.Memory[int(int16(imm))+int(*cpu.Registers[rs])] = byte(*cpu.Registers[rt])
+
 	return nil
 }
 func Slti(cpu *CPU, rs int, rt int, imm int) error {
@@ -284,6 +302,7 @@ func Sw(cpu *CPU, rs int, rt int, imm int) error {
 	cpu.Memory[addr+1] = byte((value >> 8) & 0xFF)
 	cpu.Memory[addr+2] = byte((value >> 16) & 0xFF)
 	cpu.Memory[addr+3] = byte((value >> 24) & 0xFF)
+
 	return nil
 }
 func Swc1(cpu *CPU, rs int, rt int, imm int) error {
@@ -313,7 +332,9 @@ func Jal(cpu *CPU, addr int) error {
 		fmt.Printf("%-7s ", "jal")
 		fmt.Printf("0x%08X\n", addr<<2)
 	}
+
 	cpu.RA = int32(cpu.PC)
 	cpu.PC = addr << 2
+
 	return nil
 }
