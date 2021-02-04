@@ -12,37 +12,41 @@ type CPU struct {
 	PC int // Program Counter
 
 	Zero int32 // Always returns 0
-	AT   int32 // (assembler temporary) Reserved for use by assembler
-	V0   int32 // Value returned by subroutine
-	V1   int32 // Value returned by subroutine
-	A0   int32 // (arguments) First four parameters for a subroutine
-	A1   int32 // (arguments) First four parameters for a subroutine
-	A2   int32 // (arguments) First four parameters for a subroutine
-	A3   int32 // (arguments) First four parameters for a subroutine
-	T0   int32 // (temporaries) Subroutines can use without saving
-	T1   int32 // (temporaries) Subroutines can use without saving
-	T2   int32 // (temporaries) Subroutines can use without saving
-	T3   int32 // (temporaries) Subroutines can use without saving
-	T4   int32 // (temporaries) Subroutines can use without saving
-	T5   int32 // (temporaries) Subroutines can use without saving
-	T6   int32 // (temporaries) Subroutines can use without saving
-	T7   int32 // (temporaries) Subroutines can use without saving
-	S0   int32 // Subroutine register variables, must be restored before returning
-	S1   int32 // Subroutine register variables, must be restored before returning
-	S2   int32 // Subroutine register variables, must be restored before returning
-	S3   int32 // Subroutine register variables, must be restored before returning
-	S4   int32 // Subroutine register variables, must be restored before returning
-	S5   int32 // Subroutine register variables, must be restored before returning
-	S6   int32 // Subroutine register variables, must be restored before returning
-	S7   int32 // Subroutine register variables, must be restored before returning
-	T8   int32 // (temporaries) Subroutines can use without saving
-	T9   int32 // (temporaries) Subroutines can use without saving
-	K0   int32 // Reserved for use by interrupt/trap handler; may change under your feet
-	K1   int32 // Reserved for use by interrupt/trap handler; may change under your feet
-	GP   int32 // Global pointer; used to access "static" or "extern" variables
-	SP   int32 // Stack pointer
-	FP   int32 // Frame pointer or ninth subroutine variable
-	RA   int32 // Return address for subroutine
+
+	HI int32
+	LO int32
+
+	AT int32 // (assembler temporary) Reserved for use by assembler
+	V0 int32 // Value returned by subroutine
+	V1 int32 // Value returned by subroutine
+	A0 int32 // (arguments) First four parameters for a subroutine
+	A1 int32 // (arguments) First four parameters for a subroutine
+	A2 int32 // (arguments) First four parameters for a subroutine
+	A3 int32 // (arguments) First four parameters for a subroutine
+	T0 int32 // (temporaries) Subroutines can use without saving
+	T1 int32 // (temporaries) Subroutines can use without saving
+	T2 int32 // (temporaries) Subroutines can use without saving
+	T3 int32 // (temporaries) Subroutines can use without saving
+	T4 int32 // (temporaries) Subroutines can use without saving
+	T5 int32 // (temporaries) Subroutines can use without saving
+	T6 int32 // (temporaries) Subroutines can use without saving
+	T7 int32 // (temporaries) Subroutines can use without saving
+	S0 int32 // Subroutine register variables, must be restored before returning
+	S1 int32 // Subroutine register variables, must be restored before returning
+	S2 int32 // Subroutine register variables, must be restored before returning
+	S3 int32 // Subroutine register variables, must be restored before returning
+	S4 int32 // Subroutine register variables, must be restored before returning
+	S5 int32 // Subroutine register variables, must be restored before returning
+	S6 int32 // Subroutine register variables, must be restored before returning
+	S7 int32 // Subroutine register variables, must be restored before returning
+	T8 int32 // (temporaries) Subroutines can use without saving
+	T9 int32 // (temporaries) Subroutines can use without saving
+	K0 int32 // Reserved for use by interrupt/trap handler; may change under your feet
+	K1 int32 // Reserved for use by interrupt/trap handler; may change under your feet
+	GP int32 // Global pointer; used to access "static" or "extern" variables
+	SP int32 // Stack pointer
+	FP int32 // Frame pointer or ninth subroutine variable
+	RA int32 // Return address for subroutine
 
 	Registers [GeneralPurposeRegisterCount]*int32
 
@@ -56,6 +60,8 @@ const stackBaseAddr = 0xFFFF
 func NewCPU(mem *Memory, debugMode bool) *CPU {
 	cpu := CPU{
 		PC:        0,
+		HI:        0,
+		LO:        0,
 		Zero:      0,
 		AT:        0,
 		V0:        0,
