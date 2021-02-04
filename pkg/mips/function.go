@@ -63,9 +63,17 @@ func Mfhi(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"mfhi\" not implemented)\n")
 	return errors.New("not implemented: mfhi")
 }
+
+// Move From LO
 func Mflo(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("(\"mflo\" not implemented)\n")
-	return errors.New("not implemented: mflo")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "mflo")
+		fmt.Printf("%s\n", registerNames[rd])
+	}
+
+	*cpu.Registers[rd] = cpu.LO
+
+	return nil
 }
 func Mthi(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"mthi\" not implemented)\n")
@@ -75,6 +83,8 @@ func Mtlo(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"mtlo\" not implemented)\n")
 	return errors.New("not implemented: mtlo")
 }
+
+// Multiply
 func Mult(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "mult")
