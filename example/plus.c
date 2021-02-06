@@ -7,6 +7,6 @@ int main(void) {
     return 0;
 }
 
-int plus(int a, int b) {
+int plus(unsigned int a, unsigned int b) {
     return a + b;
 }

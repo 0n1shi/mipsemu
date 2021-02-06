@@ -34,6 +34,10 @@ ex_div:
 	$(CC) -ffreestanding -nostdlib -mips1 -O0 -mno-check-zero-division -c $(EXAMPLE_DIR)/div.c -o $(EXAMPLE_DIR)/main.o
 	@make build_ex
 
+ex_for:
+	$(CC) -ffreestanding -nostdlib -mips1 -O0 -c $(EXAMPLE_DIR)/for.c -o $(EXAMPLE_DIR)/main.o
+	@make build_ex
+
 ex_as:
 	$(AS) -mips1 -O0 -o $(EXAMPLE_DIR)/main.o $(EXAMPLE_DIR)/main.S
 	@make build_ex

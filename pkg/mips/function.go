@@ -255,11 +255,11 @@ func Bltz(cpu *CPU, rs int, rt int, imm int) error {
 func Bne(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "bne")
-		fmt.Printf("%s,%s,%d\n", registerNames[rs], registerNames[rt], int(imm)<<2)
+		fmt.Printf("%s,%s,%d\n", registerNames[rs], registerNames[rt], int16(imm)<<2)
 	}
 
 	if *cpu.Registers[rs] != *cpu.Registers[rt] {
-		cpu.PC = cpu.PC + int(imm)<<2
+		cpu.PC = cpu.PC + int(int16(imm))<<2
 	}
 
 	return nil
@@ -337,9 +337,20 @@ func Sb(cpu *CPU, rs int, rt int, imm int) error {
 	return nil
 }
 
+// 	Set On Less Than Immediate
 func Slti(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("(\"slti\" not implemented)\n")
-	return errors.New("not implemented: slti")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "slti")
+		fmt.Printf("%s,%s,%d\n", registerNames[rt], registerNames[rs], int16(imm))
+	}
+
+	if *cpu.Registers[rs] < int32(int16(imm)) {
+		*cpu.Registers[rt] = 1
+	} else {
+		*cpu.Registers[rt] = 0
+	}
+
+	return nil
 }
 func Sltiu(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"sltiu\" not implemented)\n")
@@ -382,9 +393,16 @@ func DummyTypeI(cpu *CPU, rs int, rt int, imm int) error {
 // J Type Instructions
 type FunctionTypeJ func(cpu *CPU, addr int) error
 
+// Jump
 func J(cpu *CPU, addr int) error {
-	fmt.Printf("(\"j\" not implemented)\n")
-	return errors.New("not implemented: j")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "j")
+		fmt.Printf("0x%08X\n", addr<<2)
+	}
+
+	cpu.PC = (cpu.PC & 0xFFFF0000) | (addr << 2)
+
+	return nil
 }
 
 // Jump And Link
