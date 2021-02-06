@@ -59,9 +59,17 @@ func Jr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	cpu.PC = int(*cpu.Registers[rs])
 	return nil
 }
+
+// Move From HI
 func Mfhi(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("(\"mfhi\" not implemented)\n")
-	return errors.New("not implemented: mfhi")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "mfhi")
+		fmt.Printf("%s\n", registerNames[rd])
+	}
+
+	*cpu.Registers[rd] = cpu.HI
+
+	return nil
 }
 
 // Move From LO
@@ -97,6 +105,7 @@ func Mult(cpu *CPU, rs int, rt int, rd int, sa int) error {
 
 	return nil
 }
+
 func Multu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"multu\" not implemented)\n")
 	return errors.New("not implemented: multu")
@@ -105,6 +114,8 @@ func Nor(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"nor\" not implemented)\n")
 	return errors.New("not implemented: nor")
 }
+
+// Or
 func Or(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "or")
@@ -115,6 +126,8 @@ func Or(cpu *CPU, rs int, rt int, rd int, sa int) error {
 
 	return nil
 }
+
+// Shift Left Logical
 func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "sll")
@@ -125,6 +138,7 @@ func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
 
 	return nil
 }
+
 func Sllv(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"sllv\" not implemented)\n")
 	return errors.New("not implemented: sllv")
@@ -157,6 +171,8 @@ func Sub(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"sub\" not implemented)\n")
 	return errors.New("not implemented: sub")
 }
+
+// Subtract Unsigned
 func Subu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "subu")
@@ -179,6 +195,7 @@ func Xor(cpu *CPU, rs int, rt int, rd int, sa int) error {
 // I Type Instruction
 type FunctionTypeI func(cpu *CPU, rs int, rt int, imm int) error
 
+// Add Immediate
 func Addi(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "addi")
@@ -189,6 +206,8 @@ func Addi(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
+// Add Immediate Unsigned
 func Addiu(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "addiu")
@@ -224,10 +243,22 @@ func Bltz(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"bltz\" not implemented)\n")
 	return errors.New("not implemented: bltz")
 }
+
+// Branch On Not Equal
 func Bne(cpu *CPU, rs int, rt int, imm int) error {
-	fmt.Printf("(\"bne\" not implemented)\n")
-	return errors.New("not implemented: bne")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "bne")
+		fmt.Printf("%s,%s,%d\n", registerNames[rs], registerNames[rt], int(int16(imm))<<2)
+	}
+
+	if *cpu.Registers[rs] != *cpu.Registers[rt] {
+		cpu.PC = cpu.PC + int(int16(imm))<<4
+	}
+
+	return nil
 }
+
+// Load Byte
 func Lb(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "lb")
@@ -262,6 +293,8 @@ func Lui(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
+// Load Word
 func Lw(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "lw")
@@ -284,6 +317,8 @@ func Ori(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"ori\" not implemented)\n")
 	return errors.New("not implemented: ori")
 }
+
+// Store Byte
 func Sb(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "sb")
@@ -294,6 +329,7 @@ func Sb(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
 func Slti(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"slti\" not implemented)\n")
 	return errors.New("not implemented: slti")
@@ -306,6 +342,8 @@ func Sh(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"sh\" not implemented)\n")
 	return errors.New("not implemented: sh")
 }
+
+// Store Word
 func Sw(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "sw")
