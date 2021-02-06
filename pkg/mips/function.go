@@ -30,8 +30,15 @@ func Break(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	return errors.New("not implemented: break")
 }
 func Div(cpu *CPU, rs int, rt int, rd int, sa int) error {
-	fmt.Printf("(\"div\" not implemented)\n")
-	return errors.New("not implemented: div")
+	if cpu.DebugMode {
+		fmt.Printf("%-7s ", "div")
+		fmt.Printf("%s,%s\n", registerNames[rs], registerNames[rt])
+	}
+
+	cpu.LO = *cpu.Registers[rs] / *cpu.Registers[rt]
+	cpu.HI = *cpu.Registers[rs] % *cpu.Registers[rt]
+
+	return nil
 }
 func Divu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"divu\" not implemented)\n")
