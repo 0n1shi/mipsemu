@@ -248,12 +248,11 @@ func Bltz(cpu *CPU, rs int, rt int, imm int) error {
 func Bne(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "bne")
-		fmt.Printf("%s,%s,%d\n", registerNames[rs], registerNames[rt], int(int16(imm))<<2)
-		fmt.Printf("imm: %10b\n", imm)
+		fmt.Printf("%s,%s,%d\n", registerNames[rs], registerNames[rt], int(imm)<<2)
 	}
 
 	if *cpu.Registers[rs] != *cpu.Registers[rt] {
-		cpu.PC = cpu.PC + int(int16(imm))<<4
+		cpu.PC = cpu.PC + int(imm)<<2
 	}
 
 	return nil

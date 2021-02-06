@@ -19,7 +19,7 @@ build:
 	$(shell which go) build -o $(BIN)/emu ./cmd/emu/
 
 ex_plus:
-	$(CC) -ffreestanding -nostdlib -mips1 -O0 -c $(EXAMPLE_DIR)/plus.c -o $(EXAMPLE_DIR)/main.o
+	$(CC) -ffreestanding -nostdlib -mips1 -O0  -c $(EXAMPLE_DIR)/plus.c -o $(EXAMPLE_DIR)/main.o
 	@make build_ex
 
 ex_mult:
@@ -31,7 +31,7 @@ ex_sub:
 	@make build_ex
 
 ex_div:
-	$(CC) -ffreestanding -nostdlib -mips1 -O0 -c $(EXAMPLE_DIR)/div.c -o $(EXAMPLE_DIR)/main.o
+	$(CC) -ffreestanding -nostdlib -mips1 -O0 -mno-check-zero-division -c $(EXAMPLE_DIR)/div.c -o $(EXAMPLE_DIR)/main.o
 	@make build_ex
 
 ex_as:

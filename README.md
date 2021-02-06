@@ -11,3 +11,4 @@ A MIPS1 Emulator in Golang.
 - [Plasma - most MIPS I(TM) opcodes](https://opencores.org/projects/plasma/opcodes)
 - [WeMips: Online Mips Emulator](https://rivoire.cs.sonoma.edu/cs351/wemips/)
 - [OS Dev - MIPS Overview -](https://wiki.osdev.org/MIPS_Overview)
+- [MIPS Options - Using the GNU Compiler Collection (GCC)](https://gcc.gnu.org/onlinedocs/gcc-4.2.4/gcc/MIPS-Options.html)
