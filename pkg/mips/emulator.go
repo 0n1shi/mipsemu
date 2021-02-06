@@ -2,6 +2,7 @@ package mips
 
 import (
 	"errors"
+	"fmt"
 
 	errs "github.com/pkg/errors"
 )
@@ -38,6 +39,10 @@ func NewEmulator(text []byte, debug bool) (*Emulator, error) {
 func (emu *Emulator) Run() error {
 	for {
 		data, pc := emu.CPU.Fetch()
+		if data == 0x00 {
+			fmt.Println("(invalid opcode)")
+			break
+		}
 		if pc < 0 || pc > emu.TextSize {
 			break
 		}

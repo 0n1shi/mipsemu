@@ -249,6 +249,7 @@ func Bne(cpu *CPU, rs int, rt int, imm int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "bne")
 		fmt.Printf("%s,%s,%d\n", registerNames[rs], registerNames[rt], int(int16(imm))<<2)
+		fmt.Printf("imm: %10b\n", imm)
 	}
 
 	if *cpu.Registers[rs] != *cpu.Registers[rt] {

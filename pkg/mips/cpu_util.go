@@ -53,7 +53,7 @@ func (cpu *CPU) printRawData(data int) {
 }
 
 func (cpu *CPU) printCPU() {
-	fmt.Println("============================ CPU registers ==========================")
+	fmt.Println("\n============================ CPU registers ==========================")
 	fmt.Printf("Zero:%10d | ", cpu.Zero)
 	fmt.Printf("AT:  %10d | ", cpu.AT)
 	fmt.Printf("V0:  %10d | ", cpu.V0)
@@ -92,7 +92,7 @@ func (cpu *CPU) printCPU() {
 }
 
 func (cpu *CPU) printData() {
-	fmt.Println("===================== Data segment =======================")
+	fmt.Println("\n===================== Data segment =======================")
 	for pc := 0x8000; pc <= 0x80FF; pc++ {
 		if pc%16 == 0 {
 			fmt.Printf("0x%04X:    ", pc)
@@ -105,7 +105,7 @@ func (cpu *CPU) printData() {
 }
 
 func (cpu *CPU) printStack() {
-	fmt.Println("==================== Stack on memory =====================")
+	fmt.Println("\n==================== Stack on memory =====================")
 	for pc := 0xFF00; pc <= 0xFFFF; pc++ {
 		if pc%16 == 0 {
 			fmt.Printf("0x%04X:    ", pc)
