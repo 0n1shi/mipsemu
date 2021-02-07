@@ -37,23 +37,9 @@ var registerNames = []string{
 	"ra",
 }
 
-func (cpu *CPU) printAddr() {
-	if cpu.DebugMode {
-		fmt.Printf("0x%08X:\t", cpu.PC)
-	}
-}
-
-func (cpu *CPU) printRawData(data int) {
-	if cpu.DebugMode {
-		for i := 0; i < 4; i++ {
-			fmt.Printf("%02X ", (data&(0xFF000000>>(i*8)))>>((3-i)*8))
-		}
-	}
-	fmt.Print("\t\t")
-}
-
 func (cpu *CPU) printCPU() {
-	fmt.Println("\n============================ CPU registers ==========================")
+	fmt.Println("\n# registers")
+	fmt.Println("---------------------------------------------------------------------")
 	fmt.Printf("Zero:%10d | ", cpu.Zero)
 	fmt.Printf("AT:  %10d | ", cpu.AT)
 	fmt.Printf("V0:  %10d | ", cpu.V0)
@@ -91,28 +77,35 @@ func (cpu *CPU) printCPU() {
 	fmt.Printf("LO:  %10d\n", cpu.LO)
 }
 
-func (cpu *CPU) printData() {
-	fmt.Println("\n===================== Data segment =======================")
-	for pc := 0x8000; pc <= 0x80FF; pc++ {
-		if pc%16 == 0 {
-			fmt.Printf("0x%04X:    ", pc)
-		}
-		fmt.Printf("%02X ", cpu.Memory[pc])
+func (cpu *CPU) printMemory(start, end int, title string) {
+	fmt.Printf("\n%s\n", title)
+	fmt.Println("----------------------------------------------------------------------------")
+	tmp := []byte{}
+	for pc := start; pc <= end; pc++ {
+		tmp = append(tmp, cpu.Memory[pc])
 		if pc%16 == 15 {
+			fmt.Printf("0x%04X:    ", pc-15)
+			for _, d := range tmp {
+				fmt.Printf("%02X ", d)
+			}
+			fmt.Print(" ")
+			for _, d := range tmp {
+				if d >= 33 && d <= 126 {
+					fmt.Printf("%c", d)
+				} else {
+					fmt.Print(".")
+				}
+			}
 			fmt.Println()
+			tmp = []byte{}
 		}
 	}
 }
 
+func (cpu *CPU) printData() {
+	cpu.printMemory(0x8000, 0x80FF, "# data")
+}
+
 func (cpu *CPU) printStack() {
-	fmt.Println("\n==================== Stack on memory =====================")
-	for pc := 0xFF00; pc <= 0xFFFF; pc++ {
-		if pc%16 == 0 {
-			fmt.Printf("0x%04X:    ", pc)
-		}
-		fmt.Printf("%02X ", cpu.Memory[pc])
-		if pc%16 == 15 {
-			fmt.Println()
-		}
-	}
+	cpu.printMemory(0xFF00, 0xFFFF, "# stack")
 }

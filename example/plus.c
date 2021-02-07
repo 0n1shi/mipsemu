@@ -1,8 +1,8 @@
-int c = 0;
+unsigned int c = 0;
 
 int main(void) {
-    int a = 10;
-    int b = 3;
+    unsigned int a = 10;
+    unsigned int b = 3;
     c = plus(a, b);
     return 0;
 }

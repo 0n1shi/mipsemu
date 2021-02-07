@@ -8,10 +8,13 @@ import (
 // R Type Instructions
 type FunctionTypeR func(cpu *CPU, rs int, rt int, rd int, sa int) error
 
+// Add
 func Add(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"add\" not implemented)\n")
 	return errors.New("not implemented: add")
 }
+
+// Add Unsigned
 func Addu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "addu")
@@ -21,14 +24,20 @@ func Addu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	*cpu.Registers[rd] = *cpu.Registers[rs] + *cpu.Registers[rt]
 	return nil
 }
+
+// And
 func And(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"and\" not implemented)\n")
 	return errors.New("not implemented: and")
 }
+
+// Breakpoint
 func Break(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"break\" not implemented)\n")
 	return errors.New("not implemented: break")
 }
+
+// Divide
 func Div(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "div")
@@ -40,11 +49,15 @@ func Div(cpu *CPU, rs int, rt int, rd int, sa int) error {
 
 	return nil
 }
+
+// Divide Unsigned
 func Divu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"divu\" not implemented)\n")
 	return errors.New("not implemented: divu")
 
 }
+
+// Jump And Link Register
 func Jalr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"jalr\" not implemented)\n")
 	return errors.New("not implemented: jalr")
@@ -53,6 +66,7 @@ func Jalr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 // Jump Register
 const ErrorMsgForEndOfMain = "end of main function"
 
+// Jump Register
 func Jr(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	if cpu.DebugMode {
 		fmt.Printf("%-7s ", "jr")
@@ -90,10 +104,14 @@ func Mflo(cpu *CPU, rs int, rt int, rd int, sa int) error {
 
 	return nil
 }
+
+// Move To HI
 func Mthi(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"mthi\" not implemented)\n")
 	return errors.New("not implemented: mthi")
 }
+
+// Move To LO
 func Mtlo(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"mtlo\" not implemented)\n")
 	return errors.New("not implemented: mtlo")
@@ -113,10 +131,13 @@ func Mult(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	return nil
 }
 
+// Multiply Unsigned
 func Multu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"multu\" not implemented)\n")
 	return errors.New("not implemented: multu")
 }
+
+// Nor
 func Nor(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"nor\" not implemented)\n")
 	return errors.New("not implemented: nor")
@@ -146,34 +167,49 @@ func Sll(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	return nil
 }
 
+// Shift Left Logical Variable
 func Sllv(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"sllv\" not implemented)\n")
 	return errors.New("not implemented: sllv")
 }
+
+// Set On Less Than
 func Slt(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"slt\" not implemented)\n")
 	return errors.New("not implemented: slt")
 }
+
+// Set On Less Than Unsigned
 func Sltu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"sltu\" not implemented)\n")
 	return errors.New("not implemented: sltu")
 }
+
+// Shift Right Arithmetic
 func Sra(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"sra\" not implemented)\n")
 	return errors.New("not implemented: sra")
 }
+
+// Shift Right Arithmetic Variable
 func Srav(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"srav\" not implemented)\n")
 	return errors.New("not implemented: srav")
 }
+
+// Shift Right Logical
 func Srl(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"srl\" not implemented)\n")
 	return errors.New("not implemented: srl")
 }
+
+// Shift Right Logical Variable
 func Srlv(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"srlv\" not implemented)\n")
 	return errors.New("not implemented: srlv")
 }
+
+// Subtract
 func Sub(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"sub\" not implemented)\n")
 	return errors.New("not implemented: sub")
@@ -190,10 +226,14 @@ func Subu(cpu *CPU, rs int, rt int, rd int, sa int) error {
 
 	return nil
 }
+
+// System Call
 func Syscall(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"syscall\" not implemented)\n")
 	return errors.New("not implemented: syscall")
 }
+
+// Exclusive Or
 func Xor(cpu *CPU, rs int, rt int, rd int, sa int) error {
 	fmt.Printf("(\"xor\" not implemented)\n")
 	return errors.New("not implemented: xor")
@@ -226,26 +266,38 @@ func Addiu(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
+// And Immediate
 func Andi(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"andi\" not implemented)\n")
 	return errors.New("not implemented: andi")
 }
+
+// Branch On Equal
 func Beq(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"beq\" not implemented)\n")
 	return errors.New("not implemented: beq")
 }
+
+// Branch On >= 0
 func Bgez(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"bgez\" not implemented)\n")
 	return errors.New("not implemented: bgez")
 }
+
+// Branch On > 0
 func Bgtz(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"bgtz\" not implemented)\n")
 	return errors.New("not implemented: bgtz")
 }
+
+// Branch On
 func Blez(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"blez\" not implemented)\n")
 	return errors.New("not implemented: blez")
 }
+
+// Branch On < 0
 func Bltz(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"bltz\" not implemented)\n")
 	return errors.New("not implemented: bltz")
@@ -276,14 +328,20 @@ func Lb(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
+// Load Byte Unsigned
 func Lbu(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"lbu\" not implemented)\n")
 	return errors.New("not implemented: lbu")
 }
+
+// Load Halfword
 func Lh(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"lh\" not implemented)\n")
 	return errors.New("not implemented: lh")
 }
+
+// Load Halfword Unsigned
 func Lhu(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"lhu\" not implemented)\n")
 	return errors.New("not implemented: lhu")
@@ -316,10 +374,13 @@ func Lw(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
 func Lwc1(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"lwc1\" not implemented)\n")
 	return errors.New("not implemented: lwc1")
 }
+
+// Or Immediate
 func Ori(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"ori\" not implemented)\n")
 	return errors.New("not implemented: ori")
@@ -352,10 +413,14 @@ func Slti(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
+// Set On < Immediate Unsigned
 func Sltiu(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"sltiu\" not implemented)\n")
 	return errors.New("not implemented: sltiu")
 }
+
+// Store Halfword
 func Sh(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"sh\" not implemented)\n")
 	return errors.New("not implemented: sh")
@@ -377,17 +442,20 @@ func Sw(cpu *CPU, rs int, rt int, imm int) error {
 
 	return nil
 }
+
 func Swc1(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"swc1\" not implemented)\n")
 	return errors.New("not implemented: swc1")
 }
+
+// Exclusive Or Immediate
 func Xori(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(\"xori\" not implemented)\n")
 	return errors.New("not implemented: xori")
 }
 func DummyTypeI(cpu *CPU, rs int, rt int, imm int) error {
 	fmt.Printf("(not implemented)\n")
-	return nil
+	return errors.New("not implemented: dummy")
 } // Dummy
 
 // J Type Instructions

@@ -139,13 +139,20 @@ func NewCPU(mem *Memory, debugMode bool) *CPU {
 func (cpu *CPU) Fetch() (int, int) {
 	ins := 0
 
-	cpu.printAddr() // if debug mode
+	if cpu.DebugMode {
+		fmt.Printf("0x%08X:\t", cpu.PC)
+	}
 
 	for i := cpu.PC + 3; i >= cpu.PC; i-- {
 		ins = (ins << 8) | int(cpu.Memory[i])
 	}
 
-	cpu.printRawData(ins) // if debug mode
+	if cpu.DebugMode {
+		for i := 0; i < 4; i++ {
+			fmt.Printf("%02X ", (ins&(0xFF000000>>(i*8)))>>((3-i)*8))
+		}
+	}
+	fmt.Print("\t\t")
 
 	pc := cpu.PC
 	cpu.PC += 4

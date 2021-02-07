@@ -37,13 +37,14 @@ func NewEmulator(text []byte, debug bool) (*Emulator, error) {
 }
 
 func (emu *Emulator) Run() error {
+	if emu.CPU.DebugMode {
+		fmt.Println("# trace")
+		fmt.Println("------------------------------------------------------------")
+	}
 	for {
-		data, pc := emu.CPU.Fetch()
+		data, _ := emu.CPU.Fetch()
 		if data == 0x00 {
 			fmt.Println("(invalid opcode)")
-			break
-		}
-		if pc < 0 || pc > emu.TextSize {
 			break
 		}
 		ins, err := emu.CPU.Decode(data)
