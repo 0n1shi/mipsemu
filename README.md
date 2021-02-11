@@ -38,6 +38,10 @@ $ make ex_plus
 $ go run cmd/emu/main.go -f bin/main -d
 ```
 
+## Blog
+
+https://k-onishi.hatenablog.jp/entry/2021/02/11/153659
+
 ## Refs
 
 - [multiarch/crossbuild](https://github.com/multiarch/crossbuild)

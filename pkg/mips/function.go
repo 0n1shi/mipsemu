@@ -309,6 +309,7 @@ func Bne(cpu *CPU, rs int, rt int, imm int) error {
 		fmt.Printf("%-7s ", "bne")
 		fmt.Printf("%s,%s,%d\n", registerNames[rs], registerNames[rt], int16(imm)<<2)
 	}
+	cpu.printCPU()
 
 	if *cpu.Registers[rs] != *cpu.Registers[rt] {
 		cpu.PC = cpu.PC + int(int16(imm))<<2
